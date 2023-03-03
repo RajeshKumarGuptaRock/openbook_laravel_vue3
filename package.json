@@ -2,6 +2,7 @@
     "private": true,
     "scripts": {
         "dev": "vite",
+        "watch": "vite",
         "build": "vite build"
     },
     "devDependencies": {
@@ -15,6 +16,7 @@
         "@vitejs/plugin-vue": "^4.0.0",
         "bootstrap": "^5.2.3",
         "vue": "^3.2.36",
-        "vue-loader": "^17.0.1"
+        "vue-loader": "^17.0.1",
+        "vue-router": "^4.0.13"
     }
 }
