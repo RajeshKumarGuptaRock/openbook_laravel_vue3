@@ -8,6 +8,9 @@
           <li class="nav-item">
             <router-link class="text-white ml-2" to="/register">Register</router-link>
           </li>
+          <li class="nav-item">
+            <router-link class="text-white ml-2" to="/dashboard">Dashboard</router-link>
+          </li>
         </ul>        
       </nav>
       <router-view></router-view>

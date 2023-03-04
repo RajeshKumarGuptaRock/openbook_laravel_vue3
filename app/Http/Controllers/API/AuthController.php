@@ -10,8 +10,9 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+    // Registration Code
     public function register(Request $request){
-        //validator
+        //validator here...
         $validator = Validator::make($request->all(),[
             'name' => 'required',
             'email' => 'required|email',
@@ -23,7 +24,7 @@ class AuthController extends Controller
                 'success' => false,
                 'message' => $validator->errors()
             ];
-            return response()->json($response, 400);
+            return response()->json($response, 400); //400 for validation 
         }
 
         $input = $request->all();
@@ -41,24 +42,26 @@ class AuthController extends Controller
 
         return response()->json($response, 200);
     }
+    // Login Code
     public function login(Request $request){
         if(Auth::attempt(['email'=>$request->email,'password'=>$request->password])){
             $user = $request->user();
-            $success['token'] = $user->createToken('MyApp')->plainTextToken;
-            $success['name'] = $user->name;
+            $token = $user->createToken('MyApp')->plainTextToken;
+            $user_name = $user->name;
 
             $response = [
                 'success' => true,
-                'data' => $success,
+                'token' =>$token,
+                'name' => $user_name,
                 'message' =>"User login successfully"
             ];
             return response()->json($response, 200);
         }else{
             $response = [
                 'success' => false,
-                'message' =>"User login fails"
+                'message' =>"Incorrect username or password. "
             ];
-            return response()->json($response, 400);
+            return response()->json($response, 401); // status code 401 for Unauthorized User
         }
     }
 }
