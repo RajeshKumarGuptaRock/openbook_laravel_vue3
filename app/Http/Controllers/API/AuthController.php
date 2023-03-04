@@ -24,7 +24,7 @@ class AuthController extends Controller
                 'success' => false,
                 'message' => $validator->errors()
             ];
-            return response()->json($response, 400); //400 for validation 
+            return response()->json($response, 400); //Status code 400 for validation error
         }
 
         $input = $request->all();

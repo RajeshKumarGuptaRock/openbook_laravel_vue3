@@ -1,15 +1,15 @@
 <template>
       <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-        <router-link class="text-white ml-2" :to="{name :'Home' }">Home</router-link>
+        <router-link class="text-white ml-2" :to="{name :'Home' }">Home </router-link>
         <ul class="navbar-nav">
           <li class="nav-item">
-            <router-link class="text-white ml-2" to="/login">Login</router-link>
+            <router-link class="text-white ml-2" to="/login" v-if="$store.getters.getToken == 0">Login</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="text-white ml-2" to="/register">Register</router-link>
+            <router-link class="text-white ml-2" to="/register" v-if="$store.getters.getToken == 0">Register</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="text-white ml-2" to="/dashboard">Dashboard</router-link>
+            <router-link class="text-white ml-2" to="/dashboard" v-if="$store.getters.getToken != 0">Dashboard</router-link>
           </li>
         </ul>        
       </nav>

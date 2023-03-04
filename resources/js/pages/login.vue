@@ -50,9 +50,13 @@
   import axios from 'axios';
   import { reactive,ref } from 'vue'
   import { useRouter } from 'vue-router';
+  import { useStore } from 'vuex'
+
   export default{
     setup(){
       const router = useRouter()
+      const store = useStore()
+
       let form = reactive({
         email: '',
         password: ''
@@ -63,7 +67,7 @@
         await axios.post('api/login',form)
         .then(res=>{
           if(res.data.success){
-            localStorage.setItem('token',res.data.token)
+            store.dispatch('setToken',res.data.token);
             router.push({name:'Dashboard'})
           }
         }).catch(e => {
