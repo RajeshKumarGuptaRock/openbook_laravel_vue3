@@ -9,9 +9,11 @@
                 <button type="button" class="btn btn-dark mt-2" @click="logout">Logout</button>
             </div>
         </div>
-        <hr/>
+      
+
         <div class="row">
-            <div class="col order-last">
+            <div class="col-12 order-last">
+                <client/>
             </div>
         </div>
     </div>
@@ -19,8 +21,10 @@
 <script>
 import { useRouter } from "vue-router"
 import { useStore } from 'vuex'
+import Client from '../../components/Client.vue'
 
 export default{
+  components: { Client },
     setup(){
         const router = useRouter();
         const store = useStore();
