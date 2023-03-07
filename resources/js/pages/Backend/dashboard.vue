@@ -10,7 +10,6 @@
             </div>
         </div>
       
-
         <div class="row">
             <div class="col-12 order-last">
                 <client/>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Client;
+use App\Models\Contact;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,11 +18,11 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $data = Client::all();
+        $data = Client::with('contact')->get();
         $response = [
             'success' => true,
             'data' => $data,
-            'message' => "Client added successfully"
+            'message' => "Client fetch successfully"
         ];
 
         return response()->json($response, 200);
@@ -49,7 +50,10 @@ class ClientController extends Controller
         $validator = Validator::make($request->all(), [
             'company_name' => 'required',
             'address' => 'required',
-            'phone' => 'required',
+            'cmp_phone' => 'required',
+            'client_name' => 'required',
+            'client_email' => 'required',
+            'client_phone' => 'required',
         ]);
         if ($validator->fails()) {
             $response = [
@@ -60,7 +64,19 @@ class ClientController extends Controller
         }
 
         $input = $request->all();
-        $client = Client::create($input);
+        $client = new Client();
+        $client->company_name = $request['company_name'];
+        $client->address = $request['address'];
+        $client->cmp_phone = $request['cmp_phone'];
+        $client->save();
+
+        $contact = new Contact();
+        $contact->name = $request['client_name'];
+        $contact->email = $request['client_email'];
+        $contact->phone = $request['client_phone'];
+        $contact->client_id = $client->client_id;
+
+        $contact->save();
 
         $response = [
             'success' => true,
@@ -104,7 +120,7 @@ class ClientController extends Controller
         $validator = Validator::make($request->all(), [
             'company_name' => 'required',
             'address' => 'required',
-            'phone' => 'required',
+            'cmp_phone' => 'required',
         ]);
         if ($validator->fails()) {
             $response = [
@@ -117,8 +133,15 @@ class ClientController extends Controller
         $client = Client::find($id);
         $client->company_name = $request['company_name'];
         $client->address = $request['address'];
-        $client->phone = $request['phone'];
+        $client->cmp_phone = $request['cmp_phone'];
         $client->save();
+
+        $contact = Contact::where('client_id', $id)->first();
+        $contact->name = $request['client_name'];
+        $contact->email = $request['client_email'];
+        $contact->phone = $request['client_phone'];
+        $contact->save();
+
         $input = $request->all();
 
         $response = [

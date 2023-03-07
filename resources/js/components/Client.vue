@@ -35,11 +35,46 @@
             type="text"
             placeholder="Enter Phone"
             class="form-control"
-            v-model="item.phone"
+            v-model="item.cmp_phone"
           />
         </div>
       </div>
-    </div>  
+    </div> 
+    <div class="row">
+        <div class="col-4">
+          <div class="form-group">
+            <label>Client Name</label>
+            <input
+              type="text"
+              placeholder="Enter Client Name"
+              class="form-control"
+              v-model="item.client_name"
+            />
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group">
+            <label>Client Email</label>
+            <input
+              type="text"
+              placeholder="Enter Client Email"
+              class="form-control"
+              v-model="item.client_email"
+            />
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group">
+            <label>Client Phone</label>
+            <input
+              type="text"
+              placeholder="Enter Client Phone"
+              class="form-control"
+              v-model="item.client_phone"
+            />
+          </div>
+        </div>
+      </div> 
     <div class="row mt-2">
       <div class="col-6">
         <div class="form-group">
@@ -68,11 +103,26 @@
                 <td>{{srno+1}}</td>
                 <td>{{ item.company_name }}</td>
                 <td>{{ item.address }}</td>
-                <td>{{ item.phone }}</td>
+                <td>{{ item.cmp_phone }}</td>
                 <td>
                     <span class="float-right">
                     <button class="btn btn-primary btn-sm mr-2" @click="editClient(item)">Edit</button>
                     <button  @click="deleteClient(item.id)" class="btn btn-danger btn-sm mr-2">Delete</button>
+                    <button  @click="clientDetail(item.id)" class="btn btn-warning btn-sm mr-2">More..</button>
+                    <button id="show-modal" @click="showModal = true">Show Modal</button>
+  <!-- use the modal component -->
+  <transition name="modal">
+    <modal v-if="showModal" @close="showModal = false">
+      <!--
+        you can use custom content here to overwrite
+        default content
+      -->
+      <template v-slot:header>
+        <h3>custom header</h3>
+      </template>
+    </modal>
+  </transition>
+  
                   </span>
                 </td>
             </tr>
@@ -94,7 +144,11 @@ export default {
       item: {
         company_name: "",
         address: "",
-        phone: "",
+        cmp_phone: "",
+        client_name: "",
+        client_email: "",
+        client_phone: "",
+        showModal: false
       },
       temp_id:null,
       isEditing:false,
@@ -124,7 +178,7 @@ export default {
             this.item={
                 company_name:"",
                 address:"",
-                phone:""
+                cmp_phone:""
             };
             this.temp_id= null,
             this.isEditing= false
@@ -137,12 +191,17 @@ export default {
       } catch (e) {}
     },
     editClient(clientItem){
+
         this.item ={
             company_name:clientItem.company_name,
             address:clientItem.address,
-            phone:clientItem.phone
+            cmp_phone:clientItem.cmp_phone,
+            client_name :clientItem.contact[0]['name'],
+            client_email :clientItem.contact[0]['email'],
+            client_phone :clientItem.contact[0]['phone']
         }
-        this.temp_id = clientItem.id;
+        
+        this.temp_id = clientItem.client_id;
         this.isEditing = true
     },
   },
