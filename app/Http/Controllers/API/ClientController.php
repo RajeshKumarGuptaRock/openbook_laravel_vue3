@@ -169,4 +169,26 @@ class ClientController extends Controller
         ];
         return response()->json($response, 200);
     }
+
+    public function search($name)
+    {
+        $result = Client::with('contact')->where('address', 'LIKE', '%'. $name. '%')->get();
+        if(count($result)){
+            $response = [
+                'success' => true,
+                'message' => "success",
+                'data' => $result
+            ];
+            return response()->json($response, 200);
+         
+        }
+        else
+        {
+            $response = [
+                'success' => false,
+                'message' => "No data found..",
+            ];
+            return response()->json($response, 200);
+      }
+    }
 }
