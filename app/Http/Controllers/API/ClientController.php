@@ -94,6 +94,14 @@ class ClientController extends Controller
      */
     public function show($id)
     {
+        $client = Client::with('contact')->find($id);
+        $response = [
+            'success' => true,
+            'data' => $client,
+            'message' => "successfully"
+        ];
+
+        return response()->json($response, 200);
     }
 
     /**
@@ -104,7 +112,8 @@ class ClientController extends Controller
      */
     public function edit($id)
     {
-        //
+       
+
     }
 
     /**
@@ -161,7 +170,8 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-        Client::find($id)->delete();
+        //Client::find($id)->delete();
+        Client::where('client_id', $id)->delete();
         $response = [
             'success' => true,
             'data' => $id,

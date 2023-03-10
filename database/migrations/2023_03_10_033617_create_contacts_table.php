@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string("phone")->unique();
             $table->unsignedBigInteger("client_id");
             $table->timestamps();
-            $table->foreign("client_id")->references('id')->on('clients');
+            $table->foreign("client_id")->references('client_id')->on('clients')->onDelete('cascade');
         });
     }
 
