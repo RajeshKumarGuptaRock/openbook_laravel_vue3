@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
@@ -100,7 +99,6 @@ class ClientController extends Controller
             'data' => $client,
             'message' => "successfully"
         ];
-
         return response()->json($response, 200);
     }
 
@@ -112,8 +110,6 @@ class ClientController extends Controller
      */
     public function edit($id)
     {
-       
-
     }
 
     /**
@@ -170,7 +166,6 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-        //Client::find($id)->delete();
         Client::where('client_id', $id)->delete();
         $response = [
             'success' => true,
@@ -190,7 +185,6 @@ class ClientController extends Controller
                 'data' => $result
             ];
             return response()->json($response, 200);
-         
         }
         else
         {
