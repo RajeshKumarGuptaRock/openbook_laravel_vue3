@@ -177,7 +177,7 @@ class ClientController extends Controller
 
     public function search($name)
     {
-        $result = Client::with('contact')->where('address', 'LIKE', '%'. $name. '%')->get();
+        $result = Client::with('contact')->where('address', 'LIKE', '%'. $name. '%')->orWhere('company_name', 'LIKE', '%'. $name. '%')->get();
         if(count($result)){
             $response = [
                 'success' => true,
@@ -192,7 +192,7 @@ class ClientController extends Controller
                 'success' => false,
                 'message' => "No data found..",
             ];
-            return response()->json($response, 200);
+            return response()->json($response, 204);
       }
     }
 }
