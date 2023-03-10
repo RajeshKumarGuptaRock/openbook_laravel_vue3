@@ -7,6 +7,12 @@
     </div>
     <div class="shadow p-3 mb-5 bg-body rounded">
       <div class="row">
+        <div class="col-12">
+         <b>Company Details</b> 
+        </div>
+        <hr>
+      </div>
+      <div class="row">
         <div class="col-4">
           <div class="form-group">
             <label>Company Name</label>
@@ -41,6 +47,13 @@
           </div>
         </div>
       </div>
+     <br/>
+      <div class="row">
+        <div class="col-12">
+          <b>Primary Details</b>
+        </div>
+        <hr>
+      </div>
       <div class="row">
         <div class="col-4">
           <div class="form-group">
@@ -53,6 +66,7 @@
             />
           </div>
         </div>
+        
         <div class="col-4">
           <div class="form-group">
             <label>Client Email</label>
@@ -102,7 +116,7 @@
       <div class="row">
         <div class="col-md-12 offset-md-3" v-if="lists.length === 0"></div>
 
-        <table class="table table-borderless caption-top">
+        <table v-else class="table table-borderless caption-top">
           <caption>
             List of clients
           </caption>
@@ -170,6 +184,7 @@
                             class="col-md-12 offset-md-3"
                             v-if="viewlists.length === 0"
                           ></div>
+                          <p class="text-danger" v-if="error">{{ error}}</p>
                           <table class="table table-borderless caption-top">
                             <caption>
                               Clients Details
@@ -241,6 +256,7 @@
 </template>
 <script>
 import axios from "axios";
+import { ref } from 'vue'
 export default {
   name: "Client",
   data() {
@@ -263,6 +279,7 @@ export default {
       search: null,
       temp_id: null,
       isEditing: false,
+      error : ref(''),
     };
   },
   mounted() {
@@ -319,7 +336,9 @@ export default {
         axios
           .get(`/api/search/${this.search}`)
           .then((res) => (this.lists = res.data.data));
-      } catch (e) {}
+      } catch (e) {
+        error.value = e.response.data.message;
+      }
     },
     viewClientDtls(item_id) {
       console.log(item_id);
